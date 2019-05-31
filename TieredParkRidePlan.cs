@@ -27,13 +27,15 @@ namespace ParkRide
 
         protected override decimal CostOfPurchasedRide()
         {
-            if (_tierLimit > 0)
+            if (NumberPurchased > _tierLimit)
             {
-                return _rideCost;
+                return base.CostOfPurchasedRide();
+
             }
             else
             {
                 return _tierCost;
+
             }
         }
     }

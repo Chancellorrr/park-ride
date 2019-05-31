@@ -35,7 +35,7 @@ namespace ParkRide
             {
                 return "Free";
             }
-            return String.Format("{0:C}", _rideCost); ;
+            return String.Format("{0:C}", CostOfPurchasedRide()); ;
         }
         public decimal GetCostPerRide()
         {

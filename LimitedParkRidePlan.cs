@@ -26,47 +26,33 @@ namespace ParkRide
 
         public LimitedParkRidePlan(string name, int prepaid, decimal planCost, decimal rideCost = 1.00M, decimal creditLimit = 0) : base(name, prepaid, planCost, rideCost)
         {
+
             _planCost = planCost;
             _rideCost = rideCost;
             _creditLimit = creditLimit;
 
         }
 
+
         public override string GetCostOfNextRide()
         {
-            if (_creditLimit <= 0M && RemainingPrepaid == 0)
+            if (Spent + CostOfPurchasedRide() > _creditLimit && RemainingPrepaid == 0)
             {
                 return "N/A";
             }
-            else if (RemainingPrepaid > 0)
-            {
-                return "Free";
-            }
             else
             {
-
-                return String.Format("{0:C}", _rideCost); ;
+                return base.GetCostOfNextRide();
             }
         }
 
         public override bool Use()
         {
-            if (_creditLimit <= 0M && RemainingPrepaid == 0)
+            if (Spent + CostOfPurchasedRide() > _creditLimit && RemainingPrepaid == 0)
             {
                 return false;
             }
-            if (RemainingPrepaid > 0)
-            {
-                RemainingPrepaid--;
-            }
-            else
-            {
-                Spent += CostOfPurchasedRide();
-                NumberPurchased++;
-            }
-            NumberRode++;
-            _creditLimit -= _rideCost;
-            return true;
+            return base.Use();
         }
     }
 }

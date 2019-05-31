@@ -4,20 +4,26 @@ namespace ParkRide
 {
     public static class ParkRidePlanAnalyzer
     {
-        public static ParkRidePlan FindBestPlan(params ParkRidePlan[] args)
+        public static ParkRidePlan FindBestPlan(ParkRidePlan[] plans)
         {
-            decimal minCost = 100000.00M;
-            string cheapestPlan = null;
+            ParkRidePlan cheapestPlan = new ParkRidePlan();
+            cheapestPlan.Use();
 
-            foreach (var plan in args)
+            foreach (var plan in plans)
             {
-                if (plan.GetCostPerRide() < minCost)
+                try
                 {
-                    minCost = plan.GetCostPerRide();
-                    cheapestPlan = plan.Name;
+                    if (plan.GetCostPerRide() < cheapestPlan.GetCostPerRide())
+                    {
+                        cheapestPlan = plan;
+                    }
                 }
+                catch (Exception ex)
+                {
+                }
+
             }
-            return (cheapestPlan != null) ? Array.Find(args, e => e.Name == cheapestPlan) : null;
+            return cheapestPlan;
         }
     }
 }
